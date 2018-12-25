@@ -13,6 +13,7 @@ public class HelloController {
         Map<String, Object> map = new HashMap<>();
         map.put("status", true);
         map.put("message", "Hello Sagar");
+        map.put("data", "Say hello to sagar");
         return map;
     }
 }
