@@ -16,6 +16,16 @@ public class EmployeeController {
         return employeeService.get(id);
     }
 
+    @GetMapping("/findByName/{name}")
+    public Employee get(@PathVariable String name) {
+        return employeeService.findByName(name);
+    }
+
+    @GetMapping("/findBySalary")
+    public List<Employee> findBySalary(@RequestParam Integer min, @RequestParam Integer max) {
+        return employeeService.findBySalary(min, max);
+    }
+
     @GetMapping("/get")
     public List<Employee> getALl() {
         return employeeService.getAll();
@@ -35,8 +45,14 @@ public class EmployeeController {
 //        return employee;
 //    }
 
-    @PostMapping(value = "/save", produces = "application/xml")
+    @PostMapping(value = "/save", produces = "application/json")
     public Employee save(@ModelAttribute Employee employee) {
+        employeeService.save(employee);
+        return employee;
+    }
+
+    @PutMapping(value = "/update", produces = "application/json")
+    public Employee update(@RequestBody Employee employee) {
         employeeService.save(employee);
         return employee;
     }
