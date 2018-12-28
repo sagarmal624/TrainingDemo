@@ -22,12 +22,16 @@ public class EmployeeService {
     }
 
     //
-    public Employee get(Long id) {
+    public ResponseDTO get(Long id) {
+        ResponseDTO responseDTO = new ResponseDTO(false, "REcord Not found");
         Optional<Employee> optional = employeeRepository.findById(id);
         if (optional.isPresent()) {
-            return optional.get();
+            responseDTO.setStatus(true);
+            responseDTO.setMessage("Found");
+            responseDTO.setData(optional.get());
+            return responseDTO;
         }
-        return null;
+        return responseDTO;
     }
 
     public Employee findByName(String name) {

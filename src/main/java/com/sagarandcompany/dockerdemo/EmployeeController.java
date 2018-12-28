@@ -12,7 +12,7 @@ public class EmployeeController {
     EmployeeService employeeService;
 
     @GetMapping("/get/{id}")
-    public Employee get(@PathVariable Long id) {
+    public ResponseDTO get(@PathVariable Long id) {
         return employeeService.get(id);
     }
 
