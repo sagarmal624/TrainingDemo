@@ -1,10 +1,9 @@
 package com.sagarandcompany.dockerdemo;
 
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-@DiscriminatorValue("RegularEmployee")
 @Entity
+//@AttributeOverrides({@AttributeOverride(name = "name", column = @Column(name = "name"))})
 public class RegularEmployee extends Employee {
     private Integer bouns;
 

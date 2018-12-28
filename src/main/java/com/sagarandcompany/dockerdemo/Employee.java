@@ -3,11 +3,12 @@ package com.sagarandcompany.dockerdemo;
 import javax.persistence.*;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
+//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Employee {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
     private Integer salary;
     private String name;
