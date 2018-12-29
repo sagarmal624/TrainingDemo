@@ -4,14 +4,23 @@ import javax.persistence.*;
 
 @Entity
 //@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-
-@Inheritance(strategy = InheritanceType.JOINED)
+@Cacheable(true)
 public class Employee {
     @Id
-//    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer salary;
     private String name;
+    @Version
+    private Integer version;
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
 
     public Long getId() {
         return id;

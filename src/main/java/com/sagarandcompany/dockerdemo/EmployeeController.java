@@ -52,16 +52,6 @@ public class EmployeeController {
         return employee;
     }
 
-    @PostMapping(value = "/save/regular", produces = "application/json")
-    public Employee saveRedularEmp(@ModelAttribute RegularEmployee employee) {
-        employeeService.save(employee);
-        return employee;
-    }
-    @PostMapping(value = "/save/contarct", produces = "application/json")
-    public Employee saveRedularEmp(@ModelAttribute ContractEmployee employee) {
-        employeeService.save(employee);
-        return employee;
-    }
     @PutMapping(value = "/update", produces = "application/json")
     public Employee update(@RequestBody Employee employee) {
         employeeService.save(employee);

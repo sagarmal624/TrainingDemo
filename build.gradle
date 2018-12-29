@@ -29,6 +29,10 @@ repositories {
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.hibernate:hibernate-ehcache'){
+        exclude group: 'net.sf.ehcache', module: 'ehcache'
+    }
+    compile('net.sf.ehcache:ehcache:2.7.0')
     runtime('mysql:mysql-connector-java')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
