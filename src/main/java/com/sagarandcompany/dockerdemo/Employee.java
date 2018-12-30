@@ -1,6 +1,10 @@
 package com.sagarandcompany.dockerdemo;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 //@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -9,7 +13,12 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Max(10000)
+    @Column(unique = true)
     private Integer salary;
+    @NotNull(message = "sadasdadasdsa")
+    @Size(min = 3, max = 30)
+    @NotBlank
     private String name;
     @Version
     private Integer version;

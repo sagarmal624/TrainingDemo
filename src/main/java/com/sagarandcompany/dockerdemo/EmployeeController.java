@@ -1,9 +1,11 @@
 package com.sagarandcompany.dockerdemo;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.context.MessageSource;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -11,6 +13,8 @@ import java.util.List;
 public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
+    @Autowired
+    MessageSource messageSource;
 
     @GetMapping("/get/{id}")
     public ResponseDTO get(@PathVariable Long id) {
@@ -47,9 +51,14 @@ public class EmployeeController {
 //    }
 
     @PostMapping(value = "/save", produces = "application/json")
-    public Employee save(@ModelAttribute Employee employee) {
+    public ResponseDTO save(@Valid @ModelAttribute Employee employee, BindingResult bindingResult) {
+        new EmployeeValidator().validate(employee, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return UtilValidator.getErrors(bindingResult, messageSource);
+        }
         employeeService.save(employee);
-        return employee;
+        return null;
+
     }
 
     @PutMapping(value = "/update", produces = "application/json")
