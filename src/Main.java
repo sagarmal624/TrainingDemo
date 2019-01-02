@@ -1,12 +1,14 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
 
-//        List<String> lst = new ArrayList<>();
-//        lst.add("mamta");
+        List<String> lst = new ArrayList<>();
+        //        lst.add("mamta");
 //        lst.add("sagar");
 //        lst.add("vandna");
 //        lst.add("test");
