@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean name="userService1" class="com.sagarandcompany.dockerdemo.beansscope.UserService" scope="singleton">
+        <property name="email" value="sagar@gmail.com"/>
+        <property name="name" value="Sagar"/>
+        <property name="salary" value="1000"/>
+        <property name="address" ref="address"/>
+    </bean>
+
+    <bean name="userService2" class="com.sagarandcompany.dockerdemo.beansscope.UserService" scope="singleton">
+        <property name="email" value="sagar@gmail.com"/>
+        <property name="name" value="Sagar"/>
+        <property name="salary" value="1000"/>
+        <property name="address" ref="address"/>
+    </bean>
+    <bean name="userService3" class="com.sagarandcompany.dockerdemo.beansscope.UserService" scope="singleton">
+        <property name="email" value="sagar@gmail.com"/>
+        <property name="name" value="Sagar"/>
+        <property name="salary" value="1000"/>
+        <!--<property name="address" ref="address"/>-->
+        <lookup-method name="getAddress" bean="address"/>
+    </bean>
+    <bean name="address" class="com.sagarandcompany.dockerdemo.beansscope.Address" scope="prototype">
+        <property name="city" value="Delhi"/>
+        <property name="state" value="NCR"/>
+    </bean>
+
+    <bean name="addressProvider" class="com.sagarandcompany.dockerdemo.beansscope.AddressProvider">
+        <lookup-method name="getAddress" bean="address"/>
+    </bean>
+    <!--<bean name="userService2" class="com.sagarandcompany.dockerdemo.beansscope.UserService" scope="singleton">-->
+    <!--<property name="email" value="sagar@gmail.com"/>-->
+    <!--<property name="name" value="Sagar"/>-->
+    <!--<property name="salary" value="1000"/>-->
+    <!--</bean>-->
+</beans>
