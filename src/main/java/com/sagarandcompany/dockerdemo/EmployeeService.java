@@ -2,9 +2,9 @@ package com.sagarandcompany.dockerdemo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
@@ -26,23 +26,10 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
+    @Transactional
     public ResponseDTO get(Long id) {
         ResponseDTO responseDTO = new ResponseDTO(false, "REcord Not found");
-//        Session session = entityManager.unwrap(Session.class);
-        //     Employee employee = employeeRepository.findById(id).get();
-//        session.evict(employee);
-//        Employee employee2 = employeeRepository.findById(id).get();
-//        session.evict(employee2);
-//        Employee employee3 = employeeRepository.findById(id).get();
-        //   employeeRepository.save(employee);
-
-        Employee employee = entityManager.find(Employee.class, id, LockModeType.PESSIMISTIC_WRITE);
-        responseDTO.setStatus(true);
-        responseDTO.setMessage("Found");
-        Employee emp = new Employee();
-        emp.setId(employee.getId());
-        emp.setName(employee.getName());
-        responseDTO.setData(emp);
+        responseDTO.setData(employeeRepository.findById(id).get());
         return responseDTO;
     }
 
@@ -58,7 +45,11 @@ public class EmployeeService {
     }
 
     public String delete(Long id) {
-        employeeRepository.deleteById(id);
+        Optional<Employee> employee = employeeRepository.findById(id);
+        if (employee.isPresent())
+            employeeRepository.deleteById(id);
+        else
+            throw new RecordNotFoundException("Emp Record is not found with id " + id);
         return "Deleted Successfully";
     }
 }

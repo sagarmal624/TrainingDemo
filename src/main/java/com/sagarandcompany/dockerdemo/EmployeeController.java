@@ -2,19 +2,34 @@ package com.sagarandcompany.dockerdemo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 
-@RestController
+@Controller
 @RequestMapping("/emp")
 public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
     @Autowired
     MessageSource messageSource;
+
+    @GetMapping("/")
+    public ModelAndView getEmpPage(@RequestParam(value = "id", required = false) Long id) {
+
+        ModelAndView modelAndView = new ModelAndView("index");
+        if (Objects.nonNull(id)) {
+            modelAndView.addObject("employee", employeeService.get(id).getData());
+        } else
+            modelAndView.addObject("employee", new Employee());
+
+        return modelAndView;
+    }
 
     @GetMapping("/get/{id}")
     public ResponseDTO get(@PathVariable Long id) {
@@ -32,13 +47,17 @@ public class EmployeeController {
     }
 
     @GetMapping("/get")
-    public List<Employee> getALl() {
-        return employeeService.getAll();
+    public ModelAndView getALl() {
+        ModelAndView modelAndView = new ModelAndView("empList");
+//        return employeeService.getAll();
+        modelAndView.addObject("employees", employeeService.getAll());
+        return modelAndView;
     }
 
-    @DeleteMapping("/delete/{id}")
+    @GetMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
-        return employeeService.delete(id);
+        employeeService.delete(id);
+        return "redirect:/emp/get";
     }
 //    @GetMapping("/get")
 //    public Employee get(@RequestParam("salary") Integer salary, @RequestParam("name") String name, @RequestParam(value = "id", required = false) Long id) {
@@ -50,15 +69,11 @@ public class EmployeeController {
 //        return employee;
 //    }
 
-    @PostMapping(value = "/save", produces = "application/json")
-    public ResponseDTO save(@Valid @ModelAttribute Employee employee, BindingResult bindingResult) {
-        new EmployeeValidator().validate(employee, bindingResult);
-        if (bindingResult.hasErrors()) {
-            return UtilValidator.getErrors(bindingResult, messageSource);
-        }
+    @PostMapping(value = "/save")
+    public ModelAndView save(@Valid @ModelAttribute Employee employee, BindingResult bindingResult) {
         employeeService.save(employee);
-        return null;
-
+        ModelAndView modelAndView = new ModelAndView("index");
+        return modelAndView;
     }
 
     @PutMapping(value = "/update", produces = "application/json")
